@@ -51,7 +51,7 @@ export default function SliderHeader({setBg} : any){
           {mySliderData.map((v) => (
             <SwiperSlide key={v.id}>
               <div
-                className="relative w-full aspect-2/3 overflow-hidden rounded-xl cursor-pointer
+                className="relative w-full aspect-3/4 overflow-hidden rounded-xl cursor-pointer mt-6
                      transition-transform duration-300 hover:scale-105 hover:shadow-lg"
                 onMouseOver={() => setBg(getImage(v.image_name))}
               >
