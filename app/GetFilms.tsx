@@ -20,6 +20,13 @@ export default function GetFilms() {
 
   return (
     <>
+      <ul className="m-5 flex flex-row gap-2 text-xl text-slate-200 hover:text-white">
+        <li>Streaming</li>
+        <li>On Tv</li>
+        <li>for Rent</li>
+        <li>In Theater</li>
+      </ul>
+
       <div className="flex flex-wrap">
         {visibleMovies.map((item: any) => (
           <MoviesCards

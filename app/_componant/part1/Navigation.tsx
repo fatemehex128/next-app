@@ -8,7 +8,7 @@ export default function Navigation() {
   return (
     <div>
       <nav className="container mt-10 text-slate-300">
-        <div className="flex items-center">
+        <div className="flex items-baseline">
           <h1 className="ml-12 text-3xl font-bold">
             Hyper
             <span className="text-red-500"> Movies</span>
@@ -19,16 +19,24 @@ export default function Navigation() {
 
           <ul className="ml-10 hidden gap-6 md:flex">
             <li>
-              <a href="#">Movies</a>
+              <a href="#" className="hover:text-white">
+                Movies
+              </a>
             </li>
             <li>
-              <a href="#">Tv Shows</a>
+              <a href="#" className="hover:text-white">
+                Tv Shows
+              </a>
             </li>
             <li>
-              <a href="#">People</a>
+              <a href="#" className="hover:text-white">
+                People
+              </a>
             </li>
             <li>
-              <a href="#">More</a>
+              <a href="#" className="hover:text-white">
+                More
+              </a>
             </li>
           </ul>
 
@@ -39,7 +47,7 @@ export default function Navigation() {
             <li>
               <a
                 href="#"
-                className="rounded-2xl bg-rose-700 p-3 font-bold uppercase mr-10 hover:bg-rose-600"
+                className="mr-10 rounded-2xl bg-rose-700 p-3 font-bold uppercase hover:bg-rose-600"
               >
                 Sign Up
               </a>
@@ -58,7 +66,7 @@ export default function Navigation() {
       </nav>
       <div
         style={{ height: openMenu ? 255 : 0 }}
-        className={` m-3 flex flex-col justify-center border-slate-400 bg-slate-900 text-white md:hidden ${openMenu ? "h-full border-t-2 py-4" : "h-0 overflow-hidden border-none py-0"}`}
+        className={`m-3 flex flex-col justify-center border-slate-400 bg-slate-900 text-white md:hidden ${openMenu ? "h-full border-t-2 py-4" : "h-0 overflow-hidden border-none py-0"}`}
       >
         <ul className={"flex flex-col items-center gap-2"}>
           <li>
