@@ -121,6 +121,7 @@ export default function GetFilms() {
         </PaginationContent>
       </Pagination>
 
+
     </>
   )
 }
