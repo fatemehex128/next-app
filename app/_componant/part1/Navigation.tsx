@@ -11,7 +11,7 @@ export default function Navigation() {
         <div className="flex items-baseline">
           <h1 className="ml-12 text-3xl font-bold">
             Hyper
-            <span className="text-red-500"> Movies</span>
+            <span className="text-yellow-400"> Movies</span>
             <p className="mt-2 text-center text-sm text-slate-500">
               Film Review
             </p>
@@ -41,13 +41,13 @@ export default function Navigation() {
           </ul>
 
           <ul className="ml-auto hidden gap-8 md:flex">
-            <li>
+            <li className="hover:text-yellow-400">
               <a href="#">Login</a>
             </li>
             <li>
               <a
                 href="#"
-                className="mr-10 rounded-2xl bg-rose-700 p-3 font-bold uppercase hover:bg-rose-600"
+                className="mr-10 rounded-2xl bg-green-600 p-3 font-bold uppercase hover:bg-green-500 text-shadow-xs shadow-black"
               >
                 Sign Up
               </a>

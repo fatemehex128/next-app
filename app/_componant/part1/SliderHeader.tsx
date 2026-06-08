@@ -8,30 +8,35 @@ function getImage(name:string){
     return `/${name}`
 }
 export default function SliderHeader({setBg} : any){
-    const mySliderData=[
-
+    const mySliderData = [
       {
-        id:1,
-        image_name:'2.jpg',
-
+        id: 1,
+        image_name: "2.jpg",
       },
       {
-        id:2,
-        image_name:'3.jpg'
+        id: 2,
+        image_name: "3.jpg",
       },
       {
-        id:3,
-        image_name:'3.jpg'
+        id: 3,
+        image_name: "3.jpg",
       },
       {
-        id:4,
-        image_name:'2.jpg'
+        id: 4,
+        image_name: "2.jpg",
       },
       {
-        id:5,
-        image_name:'2.jpg'
+        id: 5,
+        image_name: "2.jpg",
       },
-
+      {
+        id: 6,
+        image_name: "2.jpg",
+      },
+      {
+        id: 7,
+        image_name: "2.jpg",
+      },
     ]
     return(
       <div className="w-full px-4">
@@ -59,6 +64,7 @@ export default function SliderHeader({setBg} : any){
                   fill
                   sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
                   src={getImage(v.image_name)}
+                  loading="eager"
                   alt={`Slider ${v.id}`}
                   className="object-cover"
                 />
