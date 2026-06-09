@@ -1,7 +1,8 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu } from "lucide-react"
 import { useState } from "react"
+import Link from "next/link"
 
 export default function Navigation() {
   const [openMenu, setOpenMenu] = useState(false)
@@ -19,19 +20,19 @@ export default function Navigation() {
 
           <ul className="ml-10 hidden gap-6 md:flex">
             <li>
-              <a href="#" className="hover:text-white">
+              <Link href="/movies" className="hover:text-white">
                 Movies
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-white">
+              <Link href="/TvShows" className="hover:text-white">
                 Tv Shows
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-white">
+              <Link href="#" className="hover:text-white">
                 People
-              </a>
+              </Link>
             </li>
             <li>
               <a href="#" className="hover:text-white">
@@ -47,7 +48,7 @@ export default function Navigation() {
             <li>
               <a
                 href="#"
-                className="mr-10 rounded-2xl bg-green-600 p-3 font-bold uppercase hover:bg-green-500 text-shadow-xs shadow-black"
+                className="mr-10 rounded-2xl bg-green-600 p-3 font-bold uppercase shadow-black text-shadow-xs hover:bg-green-500"
               >
                 Sign Up
               </a>

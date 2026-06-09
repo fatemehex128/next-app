@@ -1,6 +1,7 @@
 "use client"
 import Header from "@/app/_componant/Header"
 import GetFilms from "@/app/GetFilms"
+import Footer from "@/app/_componant/Footer"
 
 
 export default function Page() {
@@ -9,6 +10,7 @@ export default function Page() {
     <div>
       <Header />
       <GetFilms/>
+      <Footer/>
 
     </div>
   )

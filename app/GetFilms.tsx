@@ -2,57 +2,26 @@
 import MoviesCards from "@/app/_componant/MoviesCards"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function GetFilms() {
   const [movies, setMovies] = useState<any[]>([])
-  const [start, setStart] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
 
-  const fetchMovies = async (startNumber: number) => {
+  const fetchMovies = async () => {
     try {
-      setLoading(true)
       const response = await fetch(
-        `https://api.imdbapi.dev/titles?types=MOVIE&genres=Horror&limit=6&start=${startNumber}`
+        `https://api.imdbapi.dev/titles?types=MOVIE&genres=Horror`
       )
       const data = await response.json()
-      console.log(data)
-      if (data.titles.length === 0) {
-        setHasMore(false)
-      } else {
-        setMovies((prev) => [...prev, ...data.titles])
-      }
-      setLoading(false)
+      setMovies((prev) => [...prev, ...data.titles])
     } catch (error) {
-      console.log(error)
-      setLoading(false)
+      console.error(error)
     }
   }
 
   useEffect(() => {
-    fetchMovies(0)
+    fetchMovies()
   }, [])
-
-  const loadMore = () => {
-    const nextPage = start + 6
-    setStart(nextPage)
-    fetchMovies(nextPage)
-  }
 
   const triggerClass =
     "data-[state=active]:bg-slate-700 data-[state=active]:text-white"
@@ -90,38 +59,6 @@ export default function GetFilms() {
           />
         ))}
       </div>
-      <div className="flex justify-end gap-2 p-4">
-        {hasMore && (
-          <Button onClick={loadMore}>{loading ? "Loading..." : "More"}</Button>
-        )}
-      </div>
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-
-
     </>
   )
 }
