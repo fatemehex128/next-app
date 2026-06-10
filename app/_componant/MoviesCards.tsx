@@ -8,7 +8,7 @@ import MoviesCardsContent from "@/app/_componant/MoviesCardsContent"
 interface Props {
   title: string
   image: string
-  year?: number
+  year?: string
   rating?: Rating
 }
 export interface Rating {

@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="space-y-4 md:col-span-2">
           <div className="flex items-center gap-2">
             <Film className="h-6 w-6 text-yellow-400" />
-            <h2 className="text-xl font-bold text-white">CineVerse</h2>
+            <h2 className="text-xl font-bold text-white">Hypermovies</h2>
           </div>
           <p className="text-sm text-slate-400">
             Welcome to Hypermovies — your ultimate destination for discovering,

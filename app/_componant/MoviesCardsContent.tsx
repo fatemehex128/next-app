@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 interface Props {
   title: string
-  year?: number
+  year?: string
   rating?: Rating
 }
 export interface Rating {
@@ -22,7 +22,7 @@ export default function MoviesCardsContent({ title, year, rating }: Props) {
 
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-baseline gap-2">
-          <Star size={16} />
+          <Star size={16} className="fill-yellow-400 text-yellow-400" />
           <span>{rating?.aggregateRating}</span>
         </div>
         <Button

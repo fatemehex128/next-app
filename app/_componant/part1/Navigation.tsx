@@ -35,6 +35,11 @@ export default function Navigation() {
               </Link>
             </li>
             <li>
+              <Link href="/Popular" className="hover:text-white">
+                Popular
+              </Link>
+            </li>
+            <li>
               <a href="#" className="hover:text-white">
                 More
               </a>
