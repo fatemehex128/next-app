@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import {DirectionProvider} from "@/components/ui/direction";
 import { Inter, Roboto } from "next/font/google"
 import type { Metadata } from "next"
+import Navigation from "@/app/_componant/part1/Navigation"
+import Footer from "@/app/_componant/Footer"
 
 // Configure your primary font
 const inter = Inter({
@@ -27,6 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout(
 
+
   {
   children,
 }: Readonly<{
@@ -36,17 +39,16 @@ export default function RootLayout(
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-          "antialiased",
-          "font-sans")}
+      className={cn("antialiased", "font-sans")}
     >
-      <body  className={"bg-slate-800"}>
+      <body className={"bg-slate-800"}>
+
+          <Navigation/>
         <DirectionProvider direction="ltr" dir={"ltr"}>
-          <ThemeProvider>
-            
-            {children}
-            </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </DirectionProvider>
+        <Footer/>
+
       </body>
     </html>
   )

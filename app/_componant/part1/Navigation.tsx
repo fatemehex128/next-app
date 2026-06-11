@@ -4,8 +4,11 @@ import { Menu } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
 
+
+
 export default function Navigation() {
   const [openMenu, setOpenMenu] = useState(false)
+
   return (
     <div>
       <nav className="container mt-10 text-slate-300">
@@ -20,27 +23,27 @@ export default function Navigation() {
 
           <ul className="ml-10 hidden gap-6 md:flex">
             <li>
-              <Link href="/movies" className="hover:text-white">
+              <Link href="../../pages/movies" className="hover:text-white">
                 Movies
               </Link>
             </li>
             <li>
-              <Link href="/TvShows" className="hover:text-white">
+              <Link href="../../pages/TvShows" className="hover:text-white">
                 Tv Shows
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:text-white">
+              <Link href="../../pages/people" className="hover:text-white">
                 People
               </Link>
             </li>
             <li>
-              <Link href="/Popular" className="hover:text-white">
+              <Link href="../../pages/popular" className="hover:text-white">
                 Popular
               </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-white">
+              <a href="../../pages/more" className="hover:text-white">
                 More
               </a>
             </li>
