@@ -4,6 +4,7 @@ import { Star } from "lucide-react"
 import {Heart} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+
 interface Props {
   title: string
   year?: string
@@ -23,7 +24,7 @@ export default function MoviesCardsContent({ title, year, rating }: Props) {
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-baseline gap-2">
           <Star size={16} className="fill-yellow-400 text-yellow-400" />
-          <span>{rating?.aggregateRating}</span>
+          <span>{rating?.aggregateRating.toFixed(1)}</span>
         </div>
         <Button
           variant="ghost"
@@ -31,6 +32,7 @@ export default function MoviesCardsContent({ title, year, rating }: Props) {
             setIsLiked(!isLiked)
           }}
         >
+
           <Heart
             className={
               isLiked ? "fill-red-500 text-red-500" : "text-muted-foreground"

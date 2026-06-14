@@ -19,7 +19,7 @@ export default function GetFilms() {
   const getMovies = async () => {
     try {
       const response = await fetch(
-        `${baseUrl}/tv/popular?api_key=${ApiKey}&page=${page}`
+        `${baseUrl}/movie/popular?api_key=${ApiKey}&page=${page}`
       )
       console.log(response)
       const data = await response.json()
@@ -68,6 +68,7 @@ export default function GetFilms() {
       <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
         {uniqueMovies.map((item: any) => (
           <MoviesCards
+            id={item.id}
             key={item.id}
             title={item.name}
             image={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
@@ -80,7 +81,7 @@ export default function GetFilms() {
         ))}
       </div>
 
-      <Pagination className=" text-slate-400 hover:text-white p-1">
+      <Pagination className="p-1 text-slate-400 hover:text-white">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
