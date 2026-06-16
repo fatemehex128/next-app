@@ -1,54 +1,32 @@
+import UserProvider from "@/context/userContext"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-import {DirectionProvider} from "@/components/ui/direction";
-import { Inter, Roboto } from "next/font/google"
-import type { Metadata } from "next"
+import { cn } from "@/lib/utils"
+import { DirectionProvider } from "@/components/ui/direction"
 import Navigation from "@/app/_componant/part1/Navigation"
 import Footer from "@/app/_componant/Footer"
+import { Toaster } from "sonner"
 
-// Configure your primary font
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-// Optional: Add a secondary font
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  variable: "--font-roboto",
-  display: "swap",
-});
-
-export const metadata: Metadata = {
-  title: "Your App",
-  description: "Your app description",
-};
-
-export default function RootLayout(
-
-
-  {
+export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
       className={cn("antialiased", "font-sans")}
     >
-      <body className={"bg-slate-800"}>
-
-          <Navigation/>
-        <DirectionProvider direction="ltr" dir={"ltr"}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </DirectionProvider>
-        <Footer/>
-
+      <body className="bg-slate-800">
+        <UserProvider>
+          <DirectionProvider direction="ltr" dir="ltr">
+            <ThemeProvider>
+              {children}
+              <Toaster position={"top-center"}/>
+            </ThemeProvider>
+          </DirectionProvider>
+        </UserProvider>
       </body>
     </html>
   )

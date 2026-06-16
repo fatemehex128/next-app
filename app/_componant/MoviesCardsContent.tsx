@@ -3,7 +3,8 @@
 import { Star } from "lucide-react"
 import {Heart} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { UserContext } from "@/context/userContext"
 
 interface Props {
   title: string
@@ -16,6 +17,17 @@ export interface Rating {
 }
 export default function MoviesCardsContent({ title, year, rating }: Props) {
   const [isLiked, setIsLiked] = useState(false)
+
+  const context = useContext(UserContext)
+
+  if (!context) {
+    throw new Error("LoginPage must be used within UserProvider")
+  }
+
+  const { login } = context
+function handelWatchList(){
+
+}
 
   return (
     <div className="flex flex-col gap-2 p-3 text-white">
@@ -32,7 +44,6 @@ export default function MoviesCardsContent({ title, year, rating }: Props) {
             setIsLiked(!isLiked)
           }}
         >
-
           <Heart
             className={
               isLiked ? "fill-red-500 text-red-500" : "text-muted-foreground"
@@ -41,7 +52,11 @@ export default function MoviesCardsContent({ title, year, rating }: Props) {
         </Button>
       </div>
 
-      <span className="text-sm text-gray-300">{year}</span>
+      {login ? (
+        <Button onClick={handelWatchList}>add to watchList</Button>
+      ) : (
+        <span className="text-sm text-gray-300">{year}</span>
+      )}
     </div>
   )
 }
