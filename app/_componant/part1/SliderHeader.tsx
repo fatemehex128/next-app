@@ -4,10 +4,10 @@ import { useEffect, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay } from "swiper/modules"
 import Image from "next/image"
-
 import "swiper/css"
-
 import { ApiKey, baseUrl } from "@/app/_componant/apiConfig"
+
+
 
 interface TvShow {
   id: number
@@ -23,6 +23,7 @@ export default function SliderHeader({
 }) {
   const [movies, setMovies] = useState<TvShow[]>([])
   const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
     const getMovies = async () => {
@@ -45,6 +46,7 @@ export default function SliderHeader({
   if (loading) {
     return <div>Loading...</div>
   }
+
 
   return (
     <div className="w-full px-4">

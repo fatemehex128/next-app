@@ -32,7 +32,7 @@ export default function MoviesCards({ id,title, image, year, rating }: Props) {
         </div>
       </Link>
 
-      <MoviesCardsContent title={title} year={year} rating={rating} />
+      <MoviesCardsContent title={title} year={year} rating={rating} id={id} />
     </div>
   )
 }

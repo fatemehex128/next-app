@@ -5,8 +5,11 @@ import {Heart} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useContext, useState } from "react"
 import { UserContext } from "@/context/userContext"
+import { toast } from "sonner"
+import { err } from "@prisma/driver-adapter-utils"
 
 interface Props {
+  id:number
   title: string
   year?: string
   rating?: Rating
@@ -15,7 +18,7 @@ export interface Rating {
   aggregateRating: number
   voteCount: number
 }
-export default function MoviesCardsContent({ title, year, rating }: Props) {
+export default function MoviesCardsContent({ title, year, rating,id }: Props) {
   const [isLiked, setIsLiked] = useState(false)
 
   const context = useContext(UserContext)
@@ -24,8 +27,16 @@ export default function MoviesCardsContent({ title, year, rating }: Props) {
     throw new Error("LoginPage must be used within UserProvider")
   }
 
-  const { login } = context
-function handelWatchList(){
+  const {addToWatchList,isLoggedIn } = context
+async function handelWatchList(){
+    try {
+
+   await addToWatchList(id)
+      toast.info("The film successfully added to watchList")
+    } catch (error) {
+      console.log("error")
+      toast.error("The film did not add watchList")
+    }
 
 }
 
@@ -52,7 +63,7 @@ function handelWatchList(){
         </Button>
       </div>
 
-      {login ? (
+      {isLoggedIn ? (
         <Button onClick={handelWatchList}>add to watchList</Button>
       ) : (
         <span className="text-sm text-gray-300">{year}</span>
