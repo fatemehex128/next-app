@@ -50,10 +50,10 @@ export default function TabsMoviesSection() {
   return (
     <section className="mb-16 bg-slate-700 py-10">
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between ">
-        <h2 className="text-2xl font-bold ml-4">What do you want to see in movies?</h2>
+        <h2 className="text-2xl font-bold ml-4"> See in movies</h2>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className=" ">
-          <TabsList className=" gap-2 mr-200 bg-slate-900">
+          <TabsList className=" gap-2 mr-200  bg-slate-900">
             <TabsTrigger value="popular" className={triggerClass}>
               Popular
             </TabsTrigger>

@@ -81,7 +81,7 @@ export default function FreeForWatch() {
   }
 
   return (
-    <section className="mb-12">
+    <section className="mb-12 p-5">
       <div className="mb-8">
         <h2 className="text-2xl font-bold">Free for watch</h2>
       </div>

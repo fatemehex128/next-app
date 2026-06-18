@@ -64,7 +64,9 @@ async function handelWatchList(){
       </div>
 
       {isLoggedIn ? (
-        <Button onClick={handelWatchList}>add to watchList</Button>
+        <Button onClick={handelWatchList} variant={"ghost"} className="bg-yellow-400 text-slate-800 hover:bg-yellow-200 text-lg">
+          add to watchList
+        </Button>
       ) : (
         <span className="text-sm text-gray-300">{year}</span>
       )}
