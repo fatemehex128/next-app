@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import {
+  ChevronDown,
   CreditCardIcon,
   LogOutIcon,
   Menu,
@@ -20,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Navigation() {
   const [openMenu, setOpenMenu] = useState(false)
@@ -95,16 +97,22 @@ export default function Navigation() {
             </li>
           </ul>
 
-          {/* Desktop User Menu */}
-          <div className="ml-auto hidden items-center gap-6 md:flex">
+          <div className="ml-auto mr-5 hidden items-center gap-6 md:flex">
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    variant="outline"
-                    className="rounded-full border-slate-700 px-6 py-2 text-slate-900 hover:bg-slate-800 hover:text-slate-200"
+                    variant="ghost"
+                    className="h-10 gap-2 rounded-full px-2 hover:bg-slate-800"
                   >
-                    {user.username}
+                    <Avatar className="h-8 w-8 border border-yellow-500">
+                      <AvatarImage src="/avatar.jpg" />
+                      <AvatarFallback>
+                        {user.username[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <ChevronDown className="h-4 w-4 text-slate-400" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -113,7 +121,8 @@ export default function Navigation() {
                 >
                   <DropdownMenuItem
                     className="cursor-pointer hover:bg-slate-800 focus:bg-slate-800"
-                    onClick={handelProfile}>
+                    onClick={handelProfile}
+                  >
                     <UserIcon className="mr-3 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>

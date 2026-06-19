@@ -3,9 +3,8 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
-import Navigation from "@/app/_componant/part1/Navigation"
-import Footer from "@/app/_componant/Footer"
 import { Toaster } from "sonner"
+import { Sidebar } from "@/components/ui/sidebar"
 
 export default function RootLayout({
   children,
@@ -23,7 +22,7 @@ export default function RootLayout({
           <DirectionProvider direction="ltr" dir="ltr">
             <ThemeProvider>
               {children}
-              <Toaster position={"top-center"}/>
+              <Toaster position={"top-center"} />
             </ThemeProvider>
           </DirectionProvider>
         </UserProvider>
