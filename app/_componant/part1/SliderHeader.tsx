@@ -21,6 +21,7 @@ export default function SliderHeader({
     return <div className="p-8 text-center text-slate-400">No TV shows found</div>
   }
 
+
   return (
     <div className="w-full px-4">
       <Swiper
