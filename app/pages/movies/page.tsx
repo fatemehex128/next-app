@@ -1,36 +1,24 @@
 import Image from "next/image"
+import { useImdbMovies } from "@/app/services/hooks"
+import type { ImdbMovie } from "@/app/services/types"
 
-export interface Movie {
-  id: string
-  type: string
-  primaryTitle: string
-  originalTitle: string
-  primaryImage: MovieImage
-  startYear: number
-  runtimeSeconds: number
-  genres: string[]
-  rating: Rating
-  plot: string
-}
+export type Movie = ImdbMovie
 
-export interface MovieImage {
-  url: string
-  width: number
-  height: number
-}
-
-export interface Rating {
-  aggregateRating: number
-  voteCount: number
+async function getImdbMovies() {
+  try {
+    const response = await fetch(
+      'https://api.imdbapi.dev/titles?types=MOVIE&genres=Horror'
+    )
+    return await response.json()
+  } catch (error) {
+    console.error('Failed to fetch IMDB movies:', error)
+    return { titles: [] }
+  }
 }
 
 export default async function Page() {
-  const apiMovies = await fetch(
-    "https://api.imdbapi.dev/titles?types=MOVIE&genres=Horror"
-  )
-
-  const finalMoviesResult = await apiMovies.json()
-  const movies: Movie[] = finalMoviesResult.titles
+  const result = await getImdbMovies()
+  const movies: Movie[] = result.titles || []
 
   return (
     <div className="min-h-screen bg-neutral-900 p-10">

@@ -1,52 +1,25 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay } from "swiper/modules"
 import Image from "next/image"
 import "swiper/css"
-import { ApiKey, baseUrl } from "@/app/_componant/apiConfig"
-
-
-
-interface TvShow {
-  id: number
-  name: string
-  poster_path: string | null
-  backdrop_path: string | null
-}
+import { usePopularTvShows } from "@/app/services/hooks"
 
 export default function SliderHeader({
   setBg,
 }: {
   setBg: (url: string) => void
 }) {
-  const [movies, setMovies] = useState<TvShow[]>([])
-  const [loading, setLoading] = useState(true)
-
-
-  useEffect(() => {
-    const getMovies = async () => {
-      try {
-        const res = await fetch(`${baseUrl}/tv/popular?api_key=${ApiKey}`)
-
-        const data = await res.json()
-
-        setMovies(data.results ?? [])
-      } catch (error) {
-        console.error("Error fetching movies:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    getMovies()
-  }, [])
+  const { tvShows, loading } = usePopularTvShows()
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div className="p-8 text-center text-slate-400">Loading...</div>
   }
 
+  if (!tvShows || tvShows.length === 0) {
+    return <div className="p-8 text-center text-slate-400">No TV shows found</div>
+  }
 
   return (
     <div className="w-full px-4">
@@ -65,24 +38,24 @@ export default function SliderHeader({
           1024: { slidesPerView: 5 },
         }}
       >
-        {movies
-          .filter((movie) => movie.poster_path)
-          .map((movie) => (
-            <SwiperSlide key={movie.id}>
+        {tvShows
+          .filter((show) => show.poster_path)
+          .map((show) => (
+            <SwiperSlide key={show.id}>
               <div
                 className="relative mt-6 aspect-3/4 w-full cursor-pointer overflow-hidden rounded-xl transition-transform hover:scale-105"
                 onMouseEnter={() => {
-                  if (movie.backdrop_path) {
+                  if (show.backdrop_path) {
                     setBg(
-                      `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                      `https://image.tmdb.org/t/p/original${show.backdrop_path}`
                     )
                   }
                 }}
               >
                 <Image
                   fill
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.name}
+                  src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                  alt={show.name}
                   className="object-cover"
                   sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 20vw"
                 />

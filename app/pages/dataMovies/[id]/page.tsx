@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { ApiKey, baseUrl } from "@/app/_componant/apiConfig"
+import { getMovieDetails } from "@/app/services/endpoints"
 
 
 type Props = {
@@ -21,13 +21,7 @@ export default async function DataMoviesPage({params }: Props) {
 
   const {id}=await params
 
-  const res = await fetch(`${baseUrl}/movie/${id}?api_key=${ApiKey}`, {
-    next: { revalidate: 3600 },
-  })
-
-
-
-  const movie = await res.json()
+  const movie = await getMovieDetails(id)
 
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`

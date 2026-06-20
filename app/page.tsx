@@ -12,16 +12,21 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useContext, useState } from "react"
-import { ApiKey, baseUrl } from "@/app/_componant/apiConfig"
 import { UserContext } from "@/context/userContext"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import {
+  getAuthenticationToken,
+  validateTokenWithLogin,
+  createSession,
+  getUserAccount,
+} from "@/app/services/endpoints"
 
 export default function LoginPage() {
   const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
-  const [isSigned, setIsSigned] = useState()
+
 
   const router = useRouter()
   const context = useContext(UserContext)
@@ -38,10 +43,7 @@ export default function LoginPage() {
 
     try {
       // 1️⃣ دریافت توکن
-      const tokenResponse = await fetch(
-        `${baseUrl}/authentication/token/new?api_key=${ApiKey}`
-      )
-      const tokenData = await tokenResponse.json()
+      const tokenData = await getAuthenticationToken()
 
       if (!tokenData.success) {
         toast.error("Authentication error")
@@ -50,20 +52,11 @@ export default function LoginPage() {
       }
 
       // 2️⃣ اعتبارسنجی
-      const validateResponse = await fetch(
-        `${baseUrl}/authentication/token/validate_with_login?api_key=${ApiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: userName,
-            password: password,
-            request_token: tokenData.request_token,
-          }),
-        }
+      const validateData = await validateTokenWithLogin(
+        userName,
+        password,
+        tokenData.request_token
       )
-
-      const validateData = await validateResponse.json()
 
       if (!validateData.success) {
         toast.error("Login failed", {
@@ -74,18 +67,7 @@ export default function LoginPage() {
       }
 
       // 3️⃣ ساخت session
-      const sessionResponse = await fetch(
-        `${baseUrl}/authentication/session/new?api_key=${ApiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            request_token: validateData.request_token,
-          }),
-        }
-      )
-
-      const sessionData = await sessionResponse.json()
+      const sessionData = await createSession(validateData.request_token)
 
       if (!sessionData.success) {
         toast.error("Session creation failed")
@@ -94,11 +76,7 @@ export default function LoginPage() {
       }
 
       // 4️⃣ دریافت اطلاعات کاربر
-      const userResponse = await fetch(
-        `${baseUrl}/account?api_key=${ApiKey}&session_id=${sessionData.session_id}`
-      )
-
-      const userData = await userResponse.json()
+      const userData = await getUserAccount(sessionData.session_id)
 
       // ✅ ذخیره در context
       login(sessionData.session_id, userData)
@@ -115,6 +93,9 @@ export default function LoginPage() {
       setLoading(false)
     }
   }
+  const hendelSignUp = () => {
+    router.push("/signUp")
+  }
 
   return (
 
@@ -129,7 +110,6 @@ export default function LoginPage() {
         backgroundPosition: "center",
       }}
     >
-      {/*{isSigned?():()}*/}
 
       <Card className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 shadow-2xl shadow-black backdrop-blur-xl transition-all duration-300 hover:shadow-yellow-500/10">
         <CardHeader className="space-y-3 text-center">
@@ -143,6 +123,7 @@ export default function LoginPage() {
             <Button
               variant="link"
               className="text-yellow-400 hover:text-yellow-300"
+              onClick={hendelSignUp}
             >
               Sign Up
             </Button>

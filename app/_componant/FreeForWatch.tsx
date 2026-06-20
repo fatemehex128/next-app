@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import MoviesCards from "@/app/_componant/MoviesCards"
-import { ApiKey, baseUrl } from "@/app/_componant/apiConfig"
-
+import { usePopularMovies } from "@/app/services/hooks"
 import {
   Pagination,
   PaginationContent,
@@ -12,63 +11,25 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
-type Movie = {
-  id: number
-  title?: string
-  name?: string
-  poster_path: string | null
-  release_date?: string
-  first_air_date?: string
-  vote_average: number
-  vote_count: number
-}
-
 export default function FreeForWatch() {
-  const [movies, setMovies] = useState<Movie[]>([])
   const [apiPage, setApiPage] = useState(1)
   const [visibleCount, setVisibleCount] = useState(6)
-  const [isLoading, setIsLoading] = useState(false)
+  const { movies, loading } = usePopularMovies({ page: apiPage })
 
-  useEffect(() => {
-    async function getFreeMovies() {
-      try {
-        setIsLoading(true)
-
-        const response = await fetch(
-          `${baseUrl}/movie/popular?api_key=${ApiKey}&page=${apiPage}`
-        )
-
-        const data = await response.json()
-
-        setMovies((prevMovies) => {
-          const newMovies: Movie[] = data.results ?? []
-          const mergedMovies = [...prevMovies, ...newMovies]
-
-          return mergedMovies.filter(
-            (movie, index, self) =>
-              index === self.findIndex((item) => item.id === movie.id)
-          )
-        })
-      } catch (error) {
-        console.error("Error fetching free movies:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    getFreeMovies()
-  }, [apiPage])
+  const allMovies = useMemo(() => {
+    if (!movies) return []
+    return movies
+  }, [movies])
 
   const visibleMovies = useMemo(() => {
-    return movies.slice(0, visibleCount)
-  }, [movies, visibleCount])
+    return allMovies.slice(0, visibleCount)
+  }, [allMovies, visibleCount])
 
   function handleNext() {
     const nextVisibleCount = visibleCount + 6
-
     setVisibleCount(nextVisibleCount)
 
-    if (nextVisibleCount > movies.length) {
+    if (nextVisibleCount > allMovies.length) {
       setApiPage((prevPage) => prevPage + 1)
     }
   }
@@ -143,7 +104,7 @@ export default function FreeForWatch() {
         </Pagination>
       </div>
 
-      {isLoading && (
+      {loading && (
         <p className="mt-4 text-center text-sm text-slate-400">
           Loading more movies...
         </p>

@@ -1,25 +1,23 @@
 "use client"
 
-// import Link from "next/link"
+import type { SearchTvProps } from "@/app/services/types"
 
-export default function SearchTv({ item }) {
+export default function SearchTv({ item }: SearchTvProps) {
   const imageUrl = `https://image.tmdb.org/t/p/w92${item.poster_path}`
+  const name = item.name || item.title || "Untitled"
 
   return (
-    // <Link href={`Movies${item.id}`}>
-      <div className="flex items-center gap-3 p-2  hover:bg-slate-700">
-        <img
-          src={item.poster_path ? imageUrl : "/11.png"}
-          alt={item.name || "Tv Show image"}
-          className="h-30px w-30px"
-        />
+    <div className="flex items-center gap-3 p-2 hover:bg-slate-700">
+      <img
+        src={item.poster_path ? imageUrl : "/11.png"}
+        alt={name}
+        className="h-30px w-30px"
+      />
 
-        <div >
-          <p className="text-white">{item.name}</p>
-          <p className="text-sm text-slate-400">Tv Show</p>
-        </div>
+      <div>
+        <p className="text-white">{name}</p>
+        <p className="text-sm text-slate-400">TV Show</p>
       </div>
-      )
-    {/*</Link>*/}
-
+    </div>
+  )
 }
