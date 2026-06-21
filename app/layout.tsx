@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
 import { Toaster } from "sonner"
-import { Sidebar } from "@/components/ui/sidebar"
+import { ReactQueryProvider } from "./provider"
 
 export default function RootLayout({
   children,
@@ -18,14 +18,16 @@ export default function RootLayout({
       className={cn("antialiased", "font-sans")}
     >
       <body className="bg-slate-800">
-        <UserProvider>
-          <DirectionProvider direction="ltr" dir="ltr">
-            <ThemeProvider>
-              {children}
-              <Toaster position={"top-center"} />
-            </ThemeProvider>
-          </DirectionProvider>
-        </UserProvider>
+        <ReactQueryProvider>
+          <UserProvider>
+            <DirectionProvider direction="ltr" dir="ltr">
+              <ThemeProvider>
+                {children}
+                <Toaster position="top-center" />
+              </ThemeProvider>
+            </DirectionProvider>
+          </UserProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   )

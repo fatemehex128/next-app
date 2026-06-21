@@ -1,29 +1,27 @@
+"use client"
+
 import Image from "next/image"
 import { useImdbMovies } from "@/app/services/hooks"
 import type { ImdbMovie } from "@/app/services/types"
 
 export type Movie = ImdbMovie
 
-async function getImdbMovies() {
-  try {
-    const response = await fetch(
-      'https://api.imdbapi.dev/titles?types=MOVIE&genres=Horror'
-    )
-    return await response.json()
-  } catch (error) {
-    console.error('Failed to fetch IMDB movies:', error)
-    return { titles: [] }
-  }
-}
-
 export default async function Page() {
-  const result = await getImdbMovies()
-  const movies: Movie[] = result.titles || []
 
+  const { movies, loading, error } = useImdbMovies({
+    genre: "Horror",
+  })
+
+  if (loading) {
+    return <div className="p-10 text-white">Loading...</div>
+  }
+  if (error) {
+    return <div className="p-10 text-red-500">{error}</div>
+  }
   return (
     <div className="min-h-screen bg-neutral-900 p-10">
       <div className="flex flex-wrap justify-center gap-6">
-        {movies.map((movie) => (
+        {movies?.map((movie) => (
           <div
             key={movie.id}
             className="w-44 overflow-hidden rounded-xl bg-neutral-800 shadow-lg transition hover:scale-105"
