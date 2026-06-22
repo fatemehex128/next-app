@@ -1,63 +1,89 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { searchMulti } from '@/app/services/endpoints'
 import type { ApiResponse, SearchItem } from '@/app/services/types'
 
+// تعریف تایپ‌های مورد نیاز برای hook
 interface UseSearchOptions {
-  debounceMs?: number
-  page?: number
+  debounceMs?: number  // مدت تاخیر جستجو (میلی‌ثانیه)
+  page?: number        // شماره صفحه نتایج
 }
 
-interface UseSearchReturn {
-  results: SearchItem[] | null
-  loading: boolean
-  error: string | null
-  search: (query: string) => void
-  clearResults: () => void
-}
-
-export function useSearch(options?: UseSearchOptions): UseSearchReturn {
-  const [results, setResults] = useState<SearchItem[] | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+export function useSearch(options?: UseSearchOptions) {
+  // متغیر state برای query موجودی (typing کردن)
   const [query, setQuery] = useState('')
 
+  // متغیر state برای query تاخیر‌شده (برای API call)
+  const [debouncedQuery, setDebouncedQuery] = useState('')
+
+  // تنظیمات مقادیر پیش‌فرض
   const debounceMs = options?.debounceMs ?? 500
   const page = options?.page ?? 1
 
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults(null)
-      return
-    }
+  // تابع جستجو با debouncing
+  const search = useCallback(
+    (newQuery: string) => {
+      // 1️⃣ بروزرسانی فوری state برای UI سریع‌تر
+      setQuery(newQuery)
 
-    const timeout = setTimeout(async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        const response: ApiResponse<SearchItem> = await searchMulti(query, page)
-        setResults(response.results ?? [])
-      } catch (err: any) {
-        setError(err?.message ?? 'Failed to search')
-        setResults(null)
-      } finally {
-        setLoading(false)
-      }
-    }, debounceMs)
+      // 2️⃣ تاخیر هوشمند برای API call
+      const timeout = setTimeout(() => {
+        // تنها بعد از debounceMs میلی‌ثانیه، query تاخیر‌شده را بروزرسانی کنیں
+        setDebouncedQuery(newQuery)
+      }, debounceMs)
 
-    return () => clearTimeout(timeout)
-  }, [query, page, debounceMs])
+      // 3️⃣ اگر کاربر دوباره تایپ کند، timeout قبلی را لغو کنید
+      return () => clearTimeout(timeout)
+    },
+    [debounceMs]
+  )
 
-  const search = useCallback((newQuery: string) => {
-    setQuery(newQuery)
-  }, [])
-
+  // تابع برای پاک کردن نتایج
   const clearResults = useCallback(() => {
     setQuery('')
-    setResults(null)
-    setError(null)
+    setDebouncedQuery('')
   }, [])
 
-  return { results, loading, error, search, clearResults }
+  // TanStack Query برای مدیریت API call
+  const {
+    data: results = null,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useQuery<SearchItem[] | null>({
+    // 🔑 کلید Query - هر تغییر در این کلید، refetch می‌کند
+    queryKey: ['search', debouncedQuery, page],
+
+    // تابع برای fetch کردن داده‌ها
+    queryFn: async () => {
+      // اگر query خالی بود، null برگردانید
+      if (!debouncedQuery.trim()) {
+        return null
+      }
+
+      // فراخوانی endpoint برای جستجو
+      const response: ApiResponse<SearchItem> = await searchMulti(
+        debouncedQuery,
+        page
+      )
+
+      // برگرداندن نتایج
+      return response.results ?? []
+    },
+
+    // ⏸️ فقط زمانی fetch کن که query موجود باشد (خالی نیست)
+    enabled: !!debouncedQuery.trim(),
+  })
+
+  // برگرداندن تمام چیزهای لازم برای component
+  return {
+    results,              // نتایج جستجو
+    loading,              // آیا در حال بارگذاری؟
+    error: error?.message ?? null,  // پیغام خطا اگر هست
+    search,               // تابع برای شروع جستجو
+    clearResults,         // تابع برای پاک کردن
+    refetch,              // تابع برای دوباره درخواست
+  }
 }

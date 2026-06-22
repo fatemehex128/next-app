@@ -7,7 +7,9 @@ import SearchPerson from "@/app/_componant/SearchBox/items/SearchPerson"
 import SearchTv from "@/app/_componant/SearchBox/items/SearchTv"
 
 export default function SearchBox() {
-  const { results, search, clearResults } = useSearch({ debounceMs: 500 })
+  const { results, search, clearResults, isLoading } = useSearch({
+    debounceMs: 500,
+  })
 
   return (
     <section className="container mt-12 w-full p-2 text-xl text-slate-200">
@@ -20,6 +22,12 @@ export default function SearchBox() {
         />
 
         <Search className="absolute top-1/2 right-4 -translate-y-1/2 text-slate-400" />
+
+        {isLoading && (
+          <div className="absolute z-10 mt-2 w-full rounded-xl bg-slate-800 p-2 opacity-98">
+            <p className="p-4 text-center text-slate-400">Searching...</p>
+          </div>
+        )}
 
         {results && results.length > 0 && (
           <div

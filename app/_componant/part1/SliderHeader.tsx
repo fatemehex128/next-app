@@ -11,9 +11,9 @@ export default function SliderHeader({
 }: {
   setBg: (url: string) => void
 }) {
-  const { tvShows, loading } = usePopularTvShows()
+  const { data: tvShows, isLoading } = usePopularTvShows()
 
-  if (loading) {
+  if (isLoading) {
     return <div className="p-8 text-center text-slate-400">Loading...</div>
   }
 

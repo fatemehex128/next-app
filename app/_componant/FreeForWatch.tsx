@@ -14,7 +14,7 @@ import {
 export default function FreeForWatch() {
   const [apiPage, setApiPage] = useState(1)
   const [visibleCount, setVisibleCount] = useState(6)
-  const { movies, loading } = usePopularMovies({ page: apiPage })
+  const { data: movies, isLoading } = usePopularMovies({ page: apiPage })
 
   const allMovies = useMemo(() => {
     if (!movies) return []
@@ -104,7 +104,7 @@ export default function FreeForWatch() {
         </Pagination>
       </div>
 
-      {loading && (
+      {isLoading && (
         <p className="mt-4 text-center text-sm text-slate-400">
           Loading more movies...
         </p>

@@ -16,7 +16,7 @@ type TvCategory =
 
 export default function TabsTvSection() {
   const [activeTab, setActiveTab] = useState<TvCategory>("popular")
-  const { tvShows, loading } = useTvShowsByCategory(activeTab)
+  const { data: tvShows, isLoading } = useTvShowsByCategory(activeTab)
 
   const triggerClass =
     "data-[state=active]:bg-cyan-600 data-[state=active]:text-white text-slate-300"
@@ -44,7 +44,7 @@ export default function TabsTvSection() {
         </Tabs>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <p className="text-slate-400">Loading TV shows...</p>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">

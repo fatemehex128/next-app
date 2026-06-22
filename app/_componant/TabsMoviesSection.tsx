@@ -9,7 +9,7 @@ type MovieCategory = "popular" | "now_playing" | "top_rated" | "upcoming"
 
 export default function TabsMoviesSection() {
   const [activeTab, setActiveTab] = useState<MovieCategory>("popular")
-  const { movies, loading } = useMoviesByCategory(activeTab)
+  const { data: movies, isLoading } = useMoviesByCategory(activeTab)
 
   const triggerClass =
     "data-[state=active]:bg-cyan-600 data-[state=active]:text-white text-slate-300"
@@ -37,7 +37,7 @@ export default function TabsMoviesSection() {
         </Tabs>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <p className="text-slate-400">Loading movies...</p>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">

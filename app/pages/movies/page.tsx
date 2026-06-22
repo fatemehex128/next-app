@@ -6,17 +6,16 @@ import type { ImdbMovie } from "@/app/services/types"
 
 export type Movie = ImdbMovie
 
-export default async function Page() {
-
-  const { movies, loading, error } = useImdbMovies({
+export default function Page() {
+  const { data: movies, isLoading, error } = useImdbMovies({
     genre: "Horror",
   })
 
-  if (loading) {
+  if (isLoading) {
     return <div className="p-10 text-white">Loading...</div>
   }
   if (error) {
-    return <div className="p-10 text-red-500">{error}</div>
+    return <div className="p-10 text-red-500">{error?.message || "Error loading movies"}</div>
   }
   return (
     <div className="min-h-screen bg-neutral-900 p-10">
