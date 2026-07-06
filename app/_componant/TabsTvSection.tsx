@@ -24,7 +24,7 @@ export default function TabsTvSection() {
   return (
     <section className="mb-16 bg-slate-700 py-10">
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <h2 className="ml-4 text-2xl font-bold">See in TV shows</h2>
+        <h2 className="ml-4 text-2xl font-bold">See in Animations</h2>
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as TvCategory)}>
           <TabsList className="gap-2 bg-slate-900">

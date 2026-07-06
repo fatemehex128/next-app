@@ -14,7 +14,7 @@ type TvCategory =
   | "Aring-Today"
   | "Top Rated"
 
-export default function TabsTvSection() {
+export default function TabsAnimateSection() {
   const [activeTab, setActiveTab] = useState<TvCategory>("popular")
   const { data: tvShows, isLoading } = useTvShowsByCategory(activeTab)
 

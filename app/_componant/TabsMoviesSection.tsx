@@ -19,7 +19,10 @@ export default function TabsMoviesSection() {
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h2 className="ml-4 text-2xl font-bold">See in movies</h2>
 
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as MovieCategory)}>
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => setActiveTab(value as MovieCategory)}
+        >
           <TabsList className="gap-2 bg-slate-900">
             <TabsTrigger value="popular" className={triggerClass}>
               Popular

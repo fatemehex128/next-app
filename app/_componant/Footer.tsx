@@ -92,7 +92,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-slate-700 py-4 text-center text-xs text-slate-500 uppercase">
-        made by fatemeh eshgh amir
+        made by fatemeh Eshgh amir
       </div>
     </footer>
   )
